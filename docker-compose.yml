@@ -6,8 +6,6 @@ services:
       service: bot-presence-service
     image: ghcr.io/synzen/monitorss-bot-presence:main
     command: ["node", "dist/main.js"]
-    env_file:
-      - .env.monitorss
 
   feed-requests-redis-cache:
     extends:
@@ -25,8 +23,6 @@ services:
       service: discord-rest-listener-service
     image: ghcr.io/synzen/monitorss-discord-rest-listener:main
     command: ["node", "build/app.js"]
-    env_file:
-      - .env.monitorss
     environment:
       - NODE_ENV=production
 
@@ -36,8 +32,6 @@ services:
       service: feed-requests-service
     image: ghcr.io/synzen/monitorss-feed-requests:main
     command: ["node", "dist/main.js"]
-    env_file:
-      - .env.monitorss
     environment:
       - NODE_ENV=production
 
@@ -47,8 +41,6 @@ services:
       service: feed-requests-postgres-migration
     image: ghcr.io/synzen/monitorss-feed-requests:main
     command: "npm run migration:up"
-    env_file:
-      - .env.monitorss
     environment:
       - NODE_ENV=production
 
@@ -57,8 +49,6 @@ services:
       file: ./docker-compose.base.yml
       service: user-feeds-next-service
     image: ghcr.io/synzen/monitorss-user-feeds:main
-    env_file:
-      - .env.monitorss
     environment:
       - NODE_ENV=production
 
@@ -68,8 +58,6 @@ services:
       service: user-feeds-next-postgres-migration
     image: ghcr.io/synzen/monitorss-user-feeds:main
     command: "node ./dist/src/scripts/run-migrations.js"
-    env_file:
-      - .env.monitorss
     environment:
       - NODE_ENV=production
 
@@ -79,8 +67,6 @@ services:
       service: legacy-feed-bulk-converter-service
     image: ghcr.io/synzen/monitorss-monolith:main
     command: ["node", "dist/scripts/legacy-feed-bulk-converter.js"]
-    env_file:
-      - .env.monitorss
     environment:
       - NODE_ENV=production
 
@@ -90,8 +76,6 @@ services:
       service: schedule-emitter-service
     image: ghcr.io/synzen/monitorss-monolith:main
     command: ["node", "dist/scripts/schedule-emitter.js"]
-    env_file:
-      - .env.monitorss
     environment:
       - NODE_ENV=production
 
@@ -101,8 +85,6 @@ services:
     depends_on:
       - user-feeds-service
       - feed-requests-service
-    env_file:
-      - .env.monitorss
     environment:
       - BACKEND_API_NODE_ENV=local
       - BACKEND_API_PORT=8000
